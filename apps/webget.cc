@@ -12,9 +12,9 @@ namespace {
 void get_URL( const string& host, const string& path )
 {
   // 函数接收两个参数: 域名主机(会进行DNS解析) 和 路径
-  Address addr( host, "http" );// 服务名"http"默认对应80端口
+  Address addr( host, "http" ); // 服务名"http"默认对应80端口
   TCPSocket sock;
-  sock.connect(addr);// 构建了套接字连接
+  sock.connect( addr ); // 构建了套接字连接
 
   // 在这里构造一个GET请求
   string msg = "";
@@ -25,7 +25,7 @@ void get_URL( const string& host, const string& path )
   sock.write( msg );
 
   // 读取请求的返回内容, 套接字读取到EOF（文件末尾）, 则结束
-  while(!sock.eof()){
+  while ( !sock.eof() ) {
     sock.read( msg );
     cout << msg;
   }

@@ -11,12 +11,12 @@ void Writer::push( string data )
 {
   // Your code here (and in each method below)
   // debug( "Writer::push({}) not yet implemented", data );
-  if(is_closed() || data.empty()){
+  if ( is_closed() || data.empty() ) {
     return;
   }
   // 计算实际可写长度,不能超过容量
   uint64_t real = min( data.size(), capacity_ - buffer_.size() );
-  for ( uint64_t i = 0; i < real; ++i){
+  for ( uint64_t i = 0; i < real; ++i ) {
     buffer_.push_back( data[i] );
   }
   pushed_count_ += real;
@@ -60,11 +60,11 @@ uint64_t Writer::bytes_pushed() const
 string_view Reader::peek() const
 {
   // debug( "Reader::peek() not yet implemented" );
-  if(buffer_.empty()){
+  if ( buffer_.empty() ) {
     return {};
   }
 
-  return {&buffer_.front(),1}; // Your code here.
+  return { &buffer_.front(), 1 }; // Your code here.
 }
 
 // Remove `len` bytes from the buffer.
@@ -73,10 +73,10 @@ void Reader::pop( uint64_t len )
   // debug( "Reader::pop({}) not yet implemented", len );
   // 计算实际可读长度
   uint64_t real = min( len, buffer_.size() );
-  for ( uint64_t i = 0; i < real; ++i){
+  for ( uint64_t i = 0; i < real; ++i ) {
     buffer_.pop_front();
   }
-  popped_count_ += real ;
+  popped_count_ += real;
 }
 
 // Is the stream finished (closed and fully popped)?

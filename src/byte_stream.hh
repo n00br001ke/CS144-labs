@@ -1,9 +1,9 @@
 #pragma once
 
 #include <cstdint>
+#include <deque>
 #include <string>
 #include <string_view>
-#include <deque>
 
 class Reader;
 class Writer;
@@ -27,10 +27,10 @@ protected:
   uint64_t capacity_;
   bool error_ {};
 
-  std::deque<char> buffer_{};// 空双端队列缓冲区
-  uint64_t pushed_count_ = 0;// 写缓冲计数
-  uint64_t popped_count_ = 0;// 读缓冲计数
-  bool closed_ = false  ;// 是否关闭标志
+  std::deque<char> buffer_ {}; // 空双端队列缓冲区
+  uint64_t pushed_count_ = 0;  // 写缓冲计数
+  uint64_t popped_count_ = 0;  // 读缓冲计数
+  bool closed_ = false;        // 是否关闭标志
 };
 
 class Writer : public ByteStream
