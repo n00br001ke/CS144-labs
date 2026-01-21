@@ -1,6 +1,7 @@
 #pragma once
 
 #include "byte_stream.hh"
+#include <map>
 
 class Reassembler
 {
@@ -43,4 +44,8 @@ public:
 
 private:
   ByteStream output_;
+  std::map<uint64_t, std::string> map_ {}; // 存储还不能被写入的字节数据
+  uint64_t next_index_ = 0;                // 下一应该收到的字节序号
+  uint64_t eof_index_ = 0;                 // 流真正结束位置
+  bool is_last_ = false;                   // 是否已收到最后一段子串
 };
