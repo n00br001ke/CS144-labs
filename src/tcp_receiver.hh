@@ -27,4 +27,5 @@ public:
 
 private:
   Reassembler reassembler_;
+  std::optional<Wrap32> ISN_ {}; // 初始序列号ISN, 连接建立阶段收到SYN时设置
 };
