@@ -4,8 +4,12 @@
 #include "ethernet_frame.hh"
 #include "ipv4_datagram.hh"
 
+#include <cstddef>
+#include <cstdint>
+#include <map>
 #include <memory>
 #include <queue>
+#include <vector>
 
 // A "network interface" that connects IP (the internet layer, or network layer)
 // with Ethernet (the network access layer, or link layer).
@@ -28,6 +32,16 @@
 // the network interface passes it up the stack. If it's an ARP
 // request or reply, the network interface processes the frame
 // and learns or replies as necessary.
+
+// 要记录 IP地址 -> MAC地址, 还要记录映射时间, 所以另外设置一个数据结构来存储
+struct ArpEntry
+{
+  EthernetAddress mac;
+  size_t remaining_ttl;
+  ArpEntry() = default;
+  ArpEntry( EthernetAddress mac_, size_t ttl_ ) : mac( mac_ ), remaining_ttl( ttl_ ) {};
+};
+
 class NetworkInterface
 {
 public:
@@ -82,4 +96,13 @@ private:
 
   // Datagrams that have been received
   std::queue<InternetDatagram> datagrams_received_ {};
+
+  // ARP缓存表
+  std::map<uint32_t, ArpEntry> arp_cache_ {};
+
+  // 请求限流计时器
+  std::map<uint32_t, size_t> arp_waiting_requests_ {};
+
+  // 等待发送的数据报
+  std::map<uint32_t, std::vector<InternetDatagram>> arp_waiting_datagrams_ {};
 };
