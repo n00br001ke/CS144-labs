@@ -33,15 +33,6 @@
 // request or reply, the network interface processes the frame
 // and learns or replies as necessary.
 
-// 要记录 IP地址 -> MAC地址, 还要记录映射时间, 所以另外设置一个数据结构来存储
-struct ArpEntry
-{
-  EthernetAddress mac;
-  size_t remaining_ttl;
-  ArpEntry() = default;
-  ArpEntry( EthernetAddress mac_, size_t ttl_ ) : mac( mac_ ), remaining_ttl( ttl_ ) {};
-};
-
 class NetworkInterface
 {
 public:
@@ -96,6 +87,15 @@ private:
 
   // Datagrams that have been received
   std::queue<InternetDatagram> datagrams_received_ {};
+
+  // 要记录 IP地址 -> MAC地址, 还要记录映射时间, 所以另外设置一个数据结构来存储
+  struct ArpEntry
+  {
+    EthernetAddress mac;
+    size_t remaining_ttl;
+    ArpEntry() = default;
+    ArpEntry( EthernetAddress mac_, size_t ttl_ ) : mac( mac_ ), remaining_ttl( ttl_ ) {};
+  };
 
   // ARP缓存表
   std::map<uint32_t, ArpEntry> arp_cache_ {};
